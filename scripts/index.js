@@ -30,7 +30,7 @@ function load() {
   for (let index = 0; index < 10; index++) {
     let button = document.getElementById("button" + index);
     button.addEventListener("click", function () {
-      pressNumber(i);
+      pressNumber(index);
     });
   }
   let buttonPunto = document.getElementById("buttonPeriod");
