@@ -12,6 +12,7 @@ import {
   OPERATION_DIVIDE,
   OPERATION_PERCENTAGE,
 } from "./basicOperations.js";
+import { resetCalculator } from "./stateMachine.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   console.log("Inicializando calculadora");
@@ -45,4 +46,9 @@ document.addEventListener("DOMContentLoaded", () => {
   document
     .getElementById("buttonEquals")
     .addEventListener("click", () => stateMachine(ACTION_RESULT));
+
+  // AC button
+  document
+    .getElementById("buttonAllClear")
+    .addEventListener("click", () => resetCalculator());
 });
