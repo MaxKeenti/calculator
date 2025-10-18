@@ -1,5 +1,3 @@
-console.log("Hola mundo de la calculadora");
-
 let a;
 let b;
 let operation;
@@ -90,7 +88,7 @@ function percentage(a, b) {
 //// Funciones de la interfaz de la calculadora
 
 function pressNumber(value) {
-  console.log("Presionando numero: " + value + " - state: " + state);
+  console.log(`Presionando numero: ${value} - state: ${state}`);
   stateMachine(ACTION_NUMBER);
   addDisplay(value);
 }
@@ -101,13 +99,13 @@ function cleanDisplay() {
 }
 
 function addDisplay(value) {
-  console.log("Agregando al display: " + value);
+  console.log(`Agregando al display: ${value}`);
   let display = document.getElementById("display");
   display.value = display.value + value;
 }
 
 function operate(operator) {
-  console.log("Presionando operacion: " + operator + " - state: " + state);
+  console.log(`Presionando operacion: ${operation} - state: ${state}`);
   stateMachine(ACTION_OPERATION, operator);
 }
 
@@ -163,7 +161,7 @@ function stateMachine(action, parameter) {
 
 function equals() {
   console.log(
-    "Calculando: " + a + " + " + b + " en el estado " + state + " y operación " + operation
+    `Calculando: ${a} + ${b} en el estado ${state} y operación ${operation}`
   );
   if (operation === OPERATION_ADD) {
     let resultado = add(a, b);
