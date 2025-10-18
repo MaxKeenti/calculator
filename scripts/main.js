@@ -1,5 +1,17 @@
-import { stateMachine } from "./stateMachine.js";
+import {
+  stateMachine,
+  ACTION_NUMBER,
+  ACTION_OPERATION,
+  ACTION_RESULT,
+} from "./stateMachine.js";
 import { addDisplay } from "./ui.js";
+import {
+  OPERATION_ADD,
+  OPERATION_SUBTRACT,
+  OPERATION_TIMES,
+  OPERATION_DIVIDE,
+  OPERATION_PERCENTAGE,
+} from "./basicOperations.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   console.log("Inicializando calculadora");
