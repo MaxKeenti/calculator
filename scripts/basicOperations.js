@@ -24,4 +24,16 @@ const operationHandlers = {
   [OPERATION_PERCENTAGE]: percentage,
 };
 
-export { add, subtract, times, divide, percentage, operationHandlers };
+function equals() {
+  const handler = operationHandlers[operation];
+  if (!handler) {
+    console.warn(`No handler for operation: ${operation}`);
+    return;
+  }
+  const result = handler(a, b);
+  let display = document.getElementById("display");
+  display.value = result;
+  console.log(`Calculando: ${a} y ${b} con la operación ${operation} = ${result}`);
+}
+
+export { add, subtract, times, divide, percentage, equals, operationHandlers };
