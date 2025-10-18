@@ -1,181 +1,44 @@
-let a;
-let b;
-let operation;
-let state;
-
-// Operaciones
-const OPERATION_ADD = 1;
-const OPERATION_SUBTRACT = 2;
-const OPERATION_TIMES = 3;
-const OPERATION_DIVIDE = 4;
-const OPERATION_PERCENTAGE = 5;
-
-// Estados
-const STATE_ZERO = 1;
-const STATE_CAPTURE_A = 2;
-const STATE_CAPTURE_OPERATION = 3;
-const STATE_CAPTURE_B = 4;
-const STATE_EQUALS = 5;
-
-// Acciones
-const ACTION_NUMBER = 1;
-const ACTION_OPERATION = 2;
-const ACTION_RESULT = 3;
+import { stateMachine } from "/stateMachine.js";
+import { addDisplay } from "/ui.js";
 
 function load() {
   console.log("Inicializando calculadora");
 
-  for (let index = 0; index < 10; index++) {
-    let button = document.getElementById("button" + index);
-    button.addEventListener("click", function () {
-      pressNumber(index);
+  for (let i = 0; i < 10; i++) {
+    document.getElementById(`button${i}`).addEventListener("click", () => {
+      stateMachine(ACTION_NUMBER);
+      addDisplay(i);
     });
   }
-  let buttonPunto = document.getElementById("buttonPeriod");
-  buttonPunto.addEventListener("click", function () {
-    addDisplay(".");
-  });
 
-  let buttonSuma = document.getElementById("buttonAdd");
-  buttonSuma.addEventListener("click", function () {
-    operate(OPERATION_ADD);
-  });
-  let buttonResta = document.getElementById("buttonSubstract");
-  buttonResta.addEventListener("click", function () {
-    operate(OPERATION_SUBTRACT);
-  });
-  let buttonMultiplica = document.getElementById("buttonTimes");
-  buttonMultiplica.addEventListener("click", function () {
-    operate(OPERATION_TIMES);
-  });
-  let buttonDivide = document.getElementById("buttonDivide");
-  buttonDivide.addEventListener("click", function () {
-    operate(OPERATION_DIVIDE);
-  });
-  let buttonPorcentaje = document.getElementById("buttonPercentage");
-  buttonPorcentaje.addEventListener("click", function () {
-    operate(OPERATION_PERCENTAGE);
-  });
-  let buttonCalcular = document.getElementById("buttonEquals");
-  buttonCalcular.addEventListener("click", function () {
-    stateMachine(ACTION_RESULT);
-  });
-  state = STATE_ZERO;
+  // Operation buttons
+  document
+    .getElementById("buttonAdd")
+    .addEventListener("click", () =>
+      stateMachine(ACTION_OPERATION, OPERATION_ADD)
+    );
+  document
+    .getElementById("buttonSubstract")
+    .addEventListener("click", () =>
+      stateMachine(ACTION_OPERATION, OPERATION_SUBTRACT)
+    );
+  document
+    .getElementById("buttonTimes")
+    .addEventListener("click", () =>
+      stateMachine(ACTION_OPERATION, OPERATION_TIMES)
+    );
+  document
+    .getElementById("buttonDivide")
+    .addEventListener("click", () =>
+      stateMachine(ACTION_OPERATION, OPERATION_DIVIDE)
+    );
+  document
+    .getElementById("buttonPercentage")
+    .addEventListener("click", () =>
+      stateMachine(ACTION_OPERATION, OPERATION_PERCENTAGE)
+    );
+  document
+    .getElementById("buttonEquals")
+    .addEventListener("click", () => stateMachine(ACTION_RESULT));
 }
-
-///////// Funciones de la calculadora
-
-function add(a, b) {
-  return a + b;
-}
-
-function subtract(a, b) {
-  return a - b;
-}
-
-function times(a, b) {
-  return a * b;
-}
-
-function divide(a, b) {
-  return a / b;
-}
-
-function percentage(a, b) {
-  return (a * b) / 100;
-}
-
-//// Funciones de la interfaz de la calculadora
-
-function pressNumber(value) {
-  console.log(`Presionando numero: ${value} - state: ${state}`);
-  stateMachine(ACTION_NUMBER);
-  addDisplay(value);
-}
-
-function cleanDisplay() {
-  let display = document.getElementById("display");
-  display.value = "";
-}
-
-function addDisplay(value) {
-  console.log(`Agregando al display: ${value}`);
-  let display = document.getElementById("display");
-  display.value = display.value + value;
-}
-
-function operate(operator) {
-  console.log(`Presionando operacion: ${operation} - state: ${state}`);
-  stateMachine(ACTION_OPERATION, operator);
-}
-
-// Handler map for stateMachine
-const handlers = {
-  [STATE_ZERO]: {
-    [ACTION_NUMBER]: function () {
-      state = STATE_CAPTURE_A;
-    },
-  },
-  [STATE_CAPTURE_A]: {
-    [ACTION_NUMBER]: function () {
-      state = STATE_CAPTURE_A;
-    },
-    [ACTION_OPERATION]: function (parameter) {
-      state = STATE_CAPTURE_OPERATION;
-      operation = parameter;
-      a = parseInt(document.getElementById("display").value);
-      cleanDisplay();
-    },
-  },
-  [STATE_CAPTURE_OPERATION]: {
-    [ACTION_NUMBER]: function () {
-      console.log("cambiando a estado de capturando segundo numero");
-      state = STATE_CAPTURE_B;
-    },
-    [ACTION_OPERATION]: function () {
-      state = STATE_CAPTURE_OPERATION;
-    },
-  },
-  [STATE_CAPTURE_B]: {
-    [ACTION_OPERATION]: function () {
-      b = parseInt(document.getElementById("display").value);
-      state = STATE_EQUALS;
-      resultado = equals();
-    },
-    [ACTION_RESULT]: function () {
-      b = parseInt(document.getElementById("display").value);
-      state = STATE_EQUALS;
-      resultado = equals();
-    },
-  },
-};
-
-function stateMachine(action, parameter) {
-  const handler = handlers[state]?.[action];
-  if (handler) {
-    handler(parameter);
-  } else {
-    console.warn(`No handler for state=${state}, action=${action}`);
-  }
-}
-
-// Map operation constants to their handler functions
-const operationHandlers = {
-  [OPERATION_ADD]: add,
-  [OPERATION_SUBTRACT]: subtract,
-  [OPERATION_TIMES]: times,
-  [OPERATION_DIVIDE]: divide,
-  [OPERATION_PERCENTAGE]: percentage,
-};
-
-function equals() {
-  const handler = operationHandlers[operation];
-  if (!handler) {
-    console.warn(`No handler for operation: ${operation}`);
-    return;
-  }
-  const result = handler(a, b);
-  let display = document.getElementById("display");
-  display.value = result;
-  console.log(`Calculando: ${a} y ${b} con la operación ${operation} = ${result}`);
-}
+window.addEventListener("DOMContentLoaded", load);
