@@ -38,6 +38,11 @@ const handlers = {
     },
   },
   [STATE_CAPTURE_B]: {
+    [ACTION_NUMBER]: () => {
+      // Continue capturing the second number
+      state = STATE_CAPTURE_B;
+      calculatorState.state = STATE_CAPTURE_B;
+    },
     [ACTION_OPERATION]: () => {
       calculatorState.b = parseInt(document.getElementById("display").value);
       state = STATE_EQUALS;
