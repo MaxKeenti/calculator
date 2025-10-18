@@ -177,5 +177,5 @@ function equals() {
   const result = handler(a, b);
   let display = document.getElementById("display");
   display.value = result;
-  console.log(`Calculando: ${a} operación ${operation} ${b} = ${result}`);
+  console.log(`Calculando: ${a} y ${b} con la operación ${operation} = ${result}`);
 }
