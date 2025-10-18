@@ -114,7 +114,7 @@ const handlers = {
   [STATE_ZERO]: {
     [ACTION_NUMBER]: function () {
       state = STATE_CAPTURE_A;
-    }
+    },
   },
   [STATE_CAPTURE_A]: {
     [ACTION_NUMBER]: function () {
@@ -125,7 +125,7 @@ const handlers = {
       operation = parameter;
       a = parseInt(document.getElementById("display").value);
       cleanDisplay();
-    }
+    },
   },
   [STATE_CAPTURE_OPERATION]: {
     [ACTION_NUMBER]: function () {
@@ -134,7 +134,7 @@ const handlers = {
     },
     [ACTION_OPERATION]: function () {
       state = STATE_CAPTURE_OPERATION;
-    }
+    },
   },
   [STATE_CAPTURE_B]: {
     [ACTION_OPERATION]: function () {
@@ -146,8 +146,8 @@ const handlers = {
       b = parseInt(document.getElementById("display").value);
       state = STATE_EQUALS;
       resultado = equals();
-    }
-  }
+    },
+  },
 };
 
 function stateMachine(action, parameter) {
@@ -159,13 +159,23 @@ function stateMachine(action, parameter) {
   }
 }
 
+// Map operation constants to their handler functions
+const operationHandlers = {
+  [OPERATION_ADD]: add,
+  [OPERATION_SUBTRACT]: subtract,
+  [OPERATION_TIMES]: times,
+  [OPERATION_DIVIDE]: divide,
+  [OPERATION_PERCENTAGE]: percentage,
+};
+
 function equals() {
-  console.log(
-    `Calculando: ${a} + ${b} en el estado ${state} y operación ${operation}`
-  );
-  if (operation === OPERATION_ADD) {
-    let resultado = add(a, b);
-    let display = document.getElementById("display");
-    display.value = resultado;
+  const handler = operationHandlers[operation];
+  if (!handler) {
+    console.warn(`No handler for operation: ${operation}`);
+    return;
   }
+  const result = handler(a, b);
+  let display = document.getElementById("display");
+  display.value = result;
+  console.log(`Calculando: ${a} operación ${operation} ${b} = ${result}`);
 }
