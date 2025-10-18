@@ -1,3 +1,13 @@
+let a;
+let b;
+let operation;
+
+const OPERATION_ADD = 1;
+const OPERATION_SUBTRACT = 2;
+const OPERATION_TIMES = 3;
+const OPERATION_DIVIDE = 4;
+const OPERATION_PERCENTAGE = 5;
+
 // Basic operations
 function add(a, b) {
   return a + b;
