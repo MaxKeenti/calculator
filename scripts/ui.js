@@ -1,15 +1,10 @@
-function load() {
-  for (let index = 0; index < 10; index++) {
-    let buttZero = document.getElementById("button" + index);
-    buttZero.addEventListener("click", function () {
-      let display = document.getElementById("display");
-      display.value = display.value + index;
-    });
-  }
+function cleanDisplay() {
+  document.getElementById("display").value = "";
 }
 
-function clean (){}
-
-function addDisplay (value){
-
+function addDisplay(value) {
+  const display = document.getElementById("display");
+  display.value += value;
 }
+
+export { cleanDisplay, addDisplay };
