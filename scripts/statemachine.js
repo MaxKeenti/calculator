@@ -12,7 +12,7 @@ export const ACTION_NUMBER = 1;
 export const ACTION_OPERATION = 2;
 export const ACTION_RESULT = 3;
 
-let state = STATE_ZERO;
+let state = calculatorState.state;
 
 const handlers = {
   [STATE_ZERO]: {
@@ -47,6 +47,21 @@ const handlers = {
       calculatorState.b = parseInt(document.getElementById("display").value);
       state = STATE_EQUALS;
       equals();
+    },
+  },
+  [STATE_EQUALS]: {
+    [ACTION_OPERATION]: (parameter) => {
+      // Allow chaining operations after equals
+      calculatorState.operation = parameter;
+      calculatorState.state = STATE_CAPTURE_OPERATION;
+      state = STATE_CAPTURE_OPERATION;
+      cleanDisplay();
+    },
+    [ACTION_NUMBER]: () => {
+      // If the user starts typing a new number, start over with that as 'a'
+      resetCalculator();
+      state = STATE_CAPTURE_A;
+      calculatorState.state = STATE_CAPTURE_A;
     },
   },
 };
