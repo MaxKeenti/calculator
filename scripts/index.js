@@ -67,15 +67,15 @@ function load() {
 
 ///////// Funciones de la calculadora
 
-function suma(a, b) {
+function add(a, b) {
   return a + b;
 }
 
-function resta(a, b) {
+function subtract(a, b) {
   return a - b;
 }
 
-function multiplica(a, b) {
+function times(a, b) {
   return a * b;
 }
 
@@ -83,16 +83,16 @@ function divide(a, b) {
   return a / b;
 }
 
-function porcentaje(a, b) {
+function percentage(a, b) {
   return (a * b) / 100;
 }
 
 //// Funciones de la interfaz de la calculadora
 
-function pressNumber(i) {
-  console.log("Presionando numero: " + i + " - state: " + state);
+function pressNumber(value) {
+  console.log("Presionando numero: " + value + " - state: " + state);
   stateMachine(ACTION_NUMBER);
-  addDisplay(i);
+  addDisplay(value);
 }
 
 function cleanDisplay() {
@@ -132,23 +132,16 @@ function stateMachine(action, parameter) {
   ) {
     b = parseInt(document.getElementById("display").value);
     state = STATE_EQUALS;
-    resultado = calcular();
+    resultado = equals();
   }
 }
 
-function calcular() {
+function equals() {
   console.log(
-    "Calculando: " +
-      a +
-      " --- " +
-      b +
-      " --- " +
-      state +
-      " --- " +
-      operation
+    "Calculando: " + a + " + " + b + " en el estado " + state + " y operación " + operation
   );
   if (operation === OPERATION_ADD) {
-    let resultado = suma(a, b);
+    let resultado = add(a, b);
     let display = document.getElementById("display");
     display.value = resultado;
   }
