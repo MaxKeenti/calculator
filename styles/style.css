@@ -74,11 +74,3 @@ body {
 .button.operator {
   background-color: #ff9f0a;
 }
-
-.button.zero {
-  grid-column: span 2;
-  width: 150px;
-  border-radius: 40px;
-  text-align: left;
-  padding-left: 25px;
-}
