@@ -1,6 +1,6 @@
-let a;
-let b;
-let operation;
+import { calculatorState } from './calculatorState.js';
+
+const { a, b, operation } = calculatorState;
 
 const OPERATION_ADD = 1;
 const OPERATION_SUBTRACT = 2;
@@ -35,15 +35,33 @@ const operationHandlers = {
 };
 
 function equals() {
-  const handler = operationHandlers[operation];
+  const handler = operationHandlers[calculatorState.operation];
   if (!handler) {
-    console.warn(`No handler for operation: ${operation}`);
+    console.warn(`No handler for operation: ${calculatorState.operation}`);
     return;
   }
-  const result = handler(a, b);
+  const result = handler(calculatorState.a, calculatorState.b);
   let display = document.getElementById("display");
   display.value = result;
-  console.log(`Calculando: ${a} y ${b} con la operación ${operation} = ${result}`);
+  console.log(
+    `Calculando: ${calculatorState.a} y ${calculatorState.b} con la operación ${calculatorState.operation} = ${result}`
+  );
+  calculatorState.a = result;
+  calculatorState.b = 0;
+  calculatorState.state = 1; // Back to STATE_CAPTURE_A
 }
 
-export { add, subtract, times, divide, percentage, equals, operationHandlers };
+export { 
+  add, 
+  subtract, 
+  times, 
+  divide, 
+  percentage, 
+  equals,
+  operationHandlers, 
+  OPERATION_ADD,
+  OPERATION_SUBTRACT,
+  OPERATION_TIMES,
+  OPERATION_DIVIDE,
+  OPERATION_PERCENTAGE
+ };

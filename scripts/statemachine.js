@@ -1,26 +1,33 @@
-import { equals } from './basicOperations.js';
-import { cleanDisplay } from './ui.js';
+import { equals } from "./basicOperations.js";
+import { cleanDisplay } from "./ui.js";
+import { calculatorState, resetCalculator } from "./calculatorState.js";
 
-const STATE_ZERO = 1;
-const STATE_CAPTURE_A = 2;
-const STATE_CAPTURE_OPERATION = 3;
-const STATE_CAPTURE_B = 4;
-const STATE_EQUALS = 5;
+export const STATE_ZERO = 1;
+export const STATE_CAPTURE_A = 2;
+export const STATE_CAPTURE_OPERATION = 3;
+export const STATE_CAPTURE_B = 4;
+export const STATE_EQUALS = 5;
 
-const ACTION_NUMBER = 1;
-const ACTION_OPERATION = 2;
-const ACTION_RESULT = 3;
+export const ACTION_NUMBER = 1;
+export const ACTION_OPERATION = 2;
+export const ACTION_RESULT = 3;
+
+let state = STATE_ZERO;
 
 const handlers = {
   [STATE_ZERO]: {
-    [ACTION_NUMBER]: () => { state = STATE_CAPTURE_A; },
+    [ACTION_NUMBER]: () => {
+      state = STATE_CAPTURE_A;
+    },
   },
   [STATE_CAPTURE_A]: {
-    [ACTION_NUMBER]: () => { state = STATE_CAPTURE_A; },
+    [ACTION_NUMBER]: () => {
+      state = STATE_CAPTURE_A;
+    },
     [ACTION_OPERATION]: (parameter) => {
       state = STATE_CAPTURE_OPERATION;
-      operation = parameter;
-      a = parseInt(document.getElementById("display").value);
+      calculatorState.operation = parameter;
+      calculatorState.a = parseInt(document.getElementById("display").value);
       cleanDisplay();
     },
   },
@@ -32,12 +39,12 @@ const handlers = {
   },
   [STATE_CAPTURE_B]: {
     [ACTION_OPERATION]: () => {
-      b = parseInt(document.getElementById("display").value);
+      calculatorState.b = parseInt(document.getElementById("display").value);
       state = STATE_EQUALS;
       equals();
     },
     [ACTION_RESULT]: () => {
-      b = parseInt(document.getElementById("display").value);
+      calculatorState.b = parseInt(document.getElementById("display").value);
       state = STATE_EQUALS;
       equals();
     },
@@ -50,4 +57,4 @@ function stateMachine(action, parameter) {
   else console.warn(`No handler for state=${state}, action=${action}`);
 }
 
-export { stateMachine };
+export { stateMachine, calculatorState, resetCalculator };
