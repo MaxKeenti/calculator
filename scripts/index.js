@@ -111,28 +111,53 @@ function operate(operator) {
   stateMachine(ACTION_OPERATION, operator);
 }
 
+// Handler map for stateMachine
+const handlers = {
+  [STATE_ZERO]: {
+    [ACTION_NUMBER]: function () {
+      state = STATE_CAPTURE_A;
+    }
+  },
+  [STATE_CAPTURE_A]: {
+    [ACTION_NUMBER]: function () {
+      state = STATE_CAPTURE_A;
+    },
+    [ACTION_OPERATION]: function (parameter) {
+      state = STATE_CAPTURE_OPERATION;
+      operation = parameter;
+      a = parseInt(document.getElementById("display").value);
+      cleanDisplay();
+    }
+  },
+  [STATE_CAPTURE_OPERATION]: {
+    [ACTION_NUMBER]: function () {
+      console.log("cambiando a estado de capturando segundo numero");
+      state = STATE_CAPTURE_B;
+    },
+    [ACTION_OPERATION]: function () {
+      state = STATE_CAPTURE_OPERATION;
+    }
+  },
+  [STATE_CAPTURE_B]: {
+    [ACTION_OPERATION]: function () {
+      b = parseInt(document.getElementById("display").value);
+      state = STATE_EQUALS;
+      resultado = equals();
+    },
+    [ACTION_RESULT]: function () {
+      b = parseInt(document.getElementById("display").value);
+      state = STATE_EQUALS;
+      resultado = equals();
+    }
+  }
+};
+
 function stateMachine(action, parameter) {
-  if (state == STATE_ZERO && action == ACTION_NUMBER) {
-    state = STATE_CAPTURE_A;
-  } else if (state == STATE_CAPTURE_A && action == ACTION_NUMBER) {
-    state == STATE_CAPTURE_A;
-  } else if (state == STATE_CAPTURE_A && action == ACTION_OPERATION) {
-    state = STATE_CAPTURE_OPERATION;
-    operation = parameter;
-    a = parseInt(document.getElementById("display").value);
-    cleanDisplay();
-  } else if (state == STATE_CAPTURE_OPERATION && action == ACTION_OPERATION) {
-    state = STATE_CAPTURE_OPERATION;
-  } else if (state == STATE_CAPTURE_OPERATION && action == ACTION_NUMBER) {
-    console.log("cambiando a estado de capturando segundo numero");
-    state = STATE_CAPTURE_B;
-  } else if (
-    state == STATE_CAPTURE_B &&
-    (action == ACTION_OPERATION || action == ACTION_RESULT)
-  ) {
-    b = parseInt(document.getElementById("display").value);
-    state = STATE_EQUALS;
-    resultado = equals();
+  const handler = handlers[state]?.[action];
+  if (handler) {
+    handler(parameter);
+  } else {
+    console.warn(`No handler for state=${state}, action=${action}`);
   }
 }
 
