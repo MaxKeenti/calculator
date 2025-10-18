@@ -1,5 +1,5 @@
-import { stateMachine } from "/stateMachine.js";
-import { addDisplay } from "/ui.js";
+import { stateMachine } from "./stateMachine.js";
+import { addDisplay } from "./ui.js";
 
 function load() {
   console.log("Inicializando calculadora");

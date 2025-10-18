@@ -1,4 +1,4 @@
-import { equals } from './operations.js';
+import { equals } from './basicOperations.js';
 import { cleanDisplay } from './ui.js';
 
 const handlers = {
