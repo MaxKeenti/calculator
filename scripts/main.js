@@ -1,44 +1,36 @@
 import { stateMachine } from "./stateMachine.js";
 import { addDisplay } from "./ui.js";
 
-function load() {
+document.addEventListener("DOMContentLoaded", () => {
   console.log("Inicializando calculadora");
 
+  // 🔢 Number buttons (0–9)
   for (let i = 0; i < 10; i++) {
-    document.getElementById(`button${i}`).addEventListener("click", () => {
+    const button = document.getElementById(`button${i}`);
+    button.addEventListener("click", () => {
       stateMachine(ACTION_NUMBER);
       addDisplay(i);
     });
   }
 
-  // Operation buttons
-  document
-    .getElementById("buttonAdd")
-    .addEventListener("click", () =>
-      stateMachine(ACTION_OPERATION, OPERATION_ADD)
-    );
-  document
-    .getElementById("buttonSubstract")
-    .addEventListener("click", () =>
-      stateMachine(ACTION_OPERATION, OPERATION_SUBTRACT)
-    );
-  document
-    .getElementById("buttonTimes")
-    .addEventListener("click", () =>
-      stateMachine(ACTION_OPERATION, OPERATION_TIMES)
-    );
-  document
-    .getElementById("buttonDivide")
-    .addEventListener("click", () =>
-      stateMachine(ACTION_OPERATION, OPERATION_DIVIDE)
-    );
-  document
-    .getElementById("buttonPercentage")
-    .addEventListener("click", () =>
-      stateMachine(ACTION_OPERATION, OPERATION_PERCENTAGE)
-    );
+  // ➕ Operations mapping
+  const operations = {
+    buttonAdd: OPERATION_ADD,
+    buttonSubstract: OPERATION_SUBTRACT,
+    buttonTimes: OPERATION_TIMES,
+    buttonDivide: OPERATION_DIVIDE,
+    buttonPercentage: OPERATION_PERCENTAGE,
+  };
+
+  // ⚙️ Assign event listeners for all operation buttons
+  for (const [id, op] of Object.entries(operations)) {
+    document.getElementById(id).addEventListener("click", () => {
+      stateMachine(ACTION_OPERATION, op);
+    });
+  }
+
+  // 🟰 Equals button
   document
     .getElementById("buttonEquals")
     .addEventListener("click", () => stateMachine(ACTION_RESULT));
-}
-window.addEventListener("DOMContentLoaded", load);
+});
