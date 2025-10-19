@@ -54,6 +54,7 @@ const handlers = {
       console.log("Capturando segundo número");
       state = STATE_CAPTURE_B;
     },
+    [ACTION_PERIOD]: handlePeriod,
   },
   [STATE_CAPTURE_B]: {
     [ACTION_NUMBER]: () => {
@@ -112,11 +113,20 @@ function stateMachine(action, parameter) {
 
 function handlePeriod() {
   const display = document.getElementById("display");
-  if (!display.value.includes(".")) {
+
+  // If the display is empty, start with "0."
+  if (display.value === "") {
+    display.value = "0.";
+  } else if (!display.value.includes(".")) {
+    // Only add a period if there isn't one already
     display.value += ".";
   }
+
+  // Update the correct operand
   if (state === STATE_CAPTURE_A) calculatorState.a = display.value;
   else if (state === STATE_CAPTURE_B) calculatorState.b = display.value;
+
+  console.log(`Added period, display = ${display.value}`);
 }
 
 export { stateMachine, calculatorState, resetCalculator };
