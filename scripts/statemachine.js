@@ -96,7 +96,9 @@ const handlers = {
       console.log("Capturando segundo número");
       setState(STATE_CAPTURE_B);
     },
-    [ACTION_PERIOD]: handlePeriod,
+    [ACTION_PERIOD]: () => {
+      handlePeriod();
+    },
   },
   [STATE_CAPTURE_B]: {
     [ACTION_NUMBER]: () => {
@@ -112,7 +114,9 @@ const handlers = {
     [ACTION_SIGN_CHANGE]: () => {
       handleSignChange();
     },
-    [ACTION_PERIOD]: handlePeriod,
+    [ACTION_PERIOD]: () => {
+      handlePeriod();
+    },
   },
   [STATE_EQUALS]: {
     [ACTION_OPERATION]: (parameter) => {
