@@ -1,4 +1,4 @@
-import { calculatorState } from './calculatorState.js';
+import { calculatorState } from "./calculatorState.js";
 
 const { a, b, operation } = calculatorState;
 
@@ -24,6 +24,9 @@ function divide(a, b) {
 function percentage(a, b) {
   return (a * b) / 100;
 }
+function sign_change(value) {
+  return -value;
+}
 
 // Map operation constants to their functions
 const operationHandlers = {
@@ -31,7 +34,7 @@ const operationHandlers = {
   [OPERATION_SUBTRACT]: subtract,
   [OPERATION_TIMES]: times,
   [OPERATION_DIVIDE]: divide,
-  [OPERATION_PERCENTAGE]: percentage,
+  [OPERATION_PERCENTAGE]: percentage
 };
 
 function equals() {
@@ -51,17 +54,18 @@ function equals() {
   calculatorState.state = 1; // Back to STATE_CAPTURE_A
 }
 
-export { 
-  add, 
-  subtract, 
-  times, 
-  divide, 
-  percentage, 
+export {
+  add,
+  subtract,
+  times,
+  divide,
+  percentage,
   equals,
-  operationHandlers, 
+  sign_change,
+  operationHandlers,
   OPERATION_ADD,
   OPERATION_SUBTRACT,
   OPERATION_TIMES,
   OPERATION_DIVIDE,
   OPERATION_PERCENTAGE
- };
+};

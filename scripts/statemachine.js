@@ -1,4 +1,4 @@
-import { equals } from "./basicOperations.js";
+import { equals, sign_change } from "./basicOperations.js";
 import { cleanDisplay } from "./ui.js";
 import { calculatorState, resetCalculator } from "./calculatorState.js";
 
@@ -11,6 +11,7 @@ export const STATE_EQUALS = 5;
 export const ACTION_NUMBER = 1;
 export const ACTION_OPERATION = 2;
 export const ACTION_RESULT = 3;
+export const ACTION_SIGN_CHANGE = 4;
 
 let state = calculatorState.state;
 
@@ -29,6 +30,14 @@ const handlers = {
       calculatorState.operation = parameter;
       calculatorState.a = parseInt(document.getElementById("display").value);
       cleanDisplay();
+    },
+    [ACTION_SIGN_CHANGE]: () => {
+      const display = document.getElementById("display");
+      let value = parseFloat(display.value || "0");
+      value = sign_change(value);
+      display.value = value;
+      calculatorState.a = value;
+      console.log("Sign changed: a = " + calculatorState.a);
     },
   },
   [STATE_CAPTURE_OPERATION]: {
@@ -53,6 +62,14 @@ const handlers = {
       state = STATE_EQUALS;
       equals();
     },
+    [ACTION_SIGN_CHANGE]: () => {
+      const display = document.getElementById("display");
+      let value = parseFloat(display.value || "0");
+      value = sign_change(value);
+      display.value = value;
+      calculatorState.b = value;
+      console.log("Sign changed: b = " + calculatorState.b);
+    }
   },
   [STATE_EQUALS]: {
     [ACTION_OPERATION]: (parameter) => {
@@ -68,6 +85,14 @@ const handlers = {
       state = STATE_CAPTURE_A;
       calculatorState.state = STATE_CAPTURE_A;
     },
+    [ACTION_SIGN_CHANGE]: () => {
+      const display = document.getElementById("display");
+      let value = parseFloat(display.value || "0");
+      value = sign_change(value);
+      display.value = value;
+      calculatorState.a = value;
+      console.log("Sign changed: a = " + calculatorState.a);
+    }
   },
 };
 

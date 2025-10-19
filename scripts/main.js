@@ -3,6 +3,7 @@ import {
   ACTION_NUMBER,
   ACTION_OPERATION,
   ACTION_RESULT,
+  ACTION_SIGN_CHANGE,
 } from "./stateMachine.js";
 import { addDisplay } from "./ui.js";
 import {
@@ -51,4 +52,8 @@ document.addEventListener("DOMContentLoaded", () => {
   document
     .getElementById("buttonAllClear")
     .addEventListener("click", () => resetCalculator());
+    // AC button
+  document
+    .getElementById("buttonNegPos")
+    .addEventListener("click", () => stateMachine(ACTION_SIGN_CHANGE));
 });
