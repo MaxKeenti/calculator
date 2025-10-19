@@ -9,32 +9,17 @@ const OPERATION_DIVIDE = 4;
 const OPERATION_PERCENTAGE = 5;
 
 // Basic operations
-function add(a, b) {
-  return a + b;
-}
-function subtract(a, b) {
-  return a - b;
-}
-function times(a, b) {
-  return a * b;
-}
-function divide(a, b) {
-  return a / b;
-}
-function percentage(a, b) {
-  return (a * b) / 100;
-}
 function sign_change(value) {
   return -value;
 }
 
 // Map operation constants to their functions
 const operationHandlers = {
-  [OPERATION_ADD]: add,
-  [OPERATION_SUBTRACT]: subtract,
-  [OPERATION_TIMES]: times,
-  [OPERATION_DIVIDE]: divide,
-  [OPERATION_PERCENTAGE]: percentage,
+  [OPERATION_ADD]: (a, b) => a + b,
+  [OPERATION_SUBTRACT]: (a, b) => a - b,
+  [OPERATION_TIMES]: (a, b) => a * b,
+  [OPERATION_DIVIDE]: (a, b) => a / b,
+  [OPERATION_PERCENTAGE]: (a, b) => (a * b) / 100,
 };
 
 function equals() {
@@ -63,11 +48,6 @@ function equals() {
 }
 
 export {
-  add,
-  subtract,
-  times,
-  divide,
-  percentage,
   equals,
   sign_change,
   operationHandlers,
