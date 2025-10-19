@@ -1,42 +1,60 @@
+/**
+ * ============================================================
+ * File: [basicOperations.js]
+ * Purpose: [Implements core arithmetic operations for Calculator Web App.]
+ * ------------------------------------------------------------
+ * Description:
+ * [Defines arithmetic operation constants, their handlers, and provides functions for sign change and calculating results.]
+ *
+ * Dependencies:
+ * - [calculatorState] → [Accesses and updates calculator state]
+ *
+ * Exports:
+ * - [equals] → [Performs the selected arithmetic operation and updates state]
+ * - [sign_change] → [Changes the sign of a numeric value]
+ * - [operationHandlers] → [Maps operation constants to functions]
+ * - [OPERATION_ADD, OPERATION_SUBTRACT, OPERATION_TIMES, OPERATION_DIVIDE, OPERATION_PERCENTAGE] → [Operation constants]
+ *
+ * Author: Maximiliano González Calzada
+ * Project: Calculator Web App
+ * Created: [2025-10-14]
+ * Last Updated: [2025-10-18]
+ * ============================================================
+ */
+
 import { calculatorState } from "./calculatorState.js";
 
-const { a, b, operation } = calculatorState;
-
+// === OPERATION CONSTANTS ===
 const OPERATION_ADD = 1;
 const OPERATION_SUBTRACT = 2;
 const OPERATION_TIMES = 3;
 const OPERATION_DIVIDE = 4;
 const OPERATION_PERCENTAGE = 5;
 
-// Basic operations
-function add(a, b) {
-  return a + b;
-}
-function subtract(a, b) {
-  return a - b;
-}
-function times(a, b) {
-  return a * b;
-}
-function divide(a, b) {
-  return a / b;
-}
-function percentage(a, b) {
-  return (a * b) / 100;
-}
+/**
+ * Changes the sign of a given numeric value.
+ * @param {number} value
+ * @returns {number} The negated value.
+ */
 function sign_change(value) {
   return -value;
 }
 
-// Map operation constants to their functions
+/**
+ * Maps operation constants to their respective functions.
+ */
 const operationHandlers = {
-  [OPERATION_ADD]: add,
-  [OPERATION_SUBTRACT]: subtract,
-  [OPERATION_TIMES]: times,
-  [OPERATION_DIVIDE]: divide,
-  [OPERATION_PERCENTAGE]: percentage,
+  [OPERATION_ADD]: (a, b) => a + b,
+  [OPERATION_SUBTRACT]: (a, b) => a - b,
+  [OPERATION_TIMES]: (a, b) => a * b,
+  [OPERATION_DIVIDE]: (a, b) => a / b,
+  [OPERATION_PERCENTAGE]: (a, b) => (a * b) / 100,
 };
 
+/**
+ * Performs the selected operation using operands `a` and `b`.
+ * Displays the result and updates calculator state.
+ */
 function equals() {
   const handler = operationHandlers[calculatorState.operation];
   if (!handler) {
@@ -46,28 +64,18 @@ function equals() {
 
   const a = parseFloat(calculatorState.a);
   const b = parseFloat(calculatorState.b);
-
   const result = handler(a, b);
 
-  const display = document.getElementById("display");
-  display.value = result;
+  document.getElementById("display").value = result;
 
-  console.log(
-    `Calculando: ${a} y ${b} con la operación ${calculatorState.operation} = ${result}`
-  );
+  //console.log(`Calculando: ${a} y ${b} con operación ${calculatorState.operation} = ${result}`);
 
-  // Save the result for chaining
   calculatorState.a = result;
   calculatorState.b = 0;
-  calculatorState.state = 1; // Back to STATE_CAPTURE_A
+  calculatorState.state = 1;
 }
 
 export {
-  add,
-  subtract,
-  times,
-  divide,
-  percentage,
   equals,
   sign_change,
   operationHandlers,
