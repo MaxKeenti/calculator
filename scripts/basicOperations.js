@@ -34,7 +34,7 @@ const operationHandlers = {
   [OPERATION_SUBTRACT]: subtract,
   [OPERATION_TIMES]: times,
   [OPERATION_DIVIDE]: divide,
-  [OPERATION_PERCENTAGE]: percentage
+  [OPERATION_PERCENTAGE]: percentage,
 };
 
 function equals() {
@@ -43,12 +43,20 @@ function equals() {
     console.warn(`No handler for operation: ${calculatorState.operation}`);
     return;
   }
-  const result = handler(calculatorState.a, calculatorState.b);
-  let display = document.getElementById("display");
+
+  const a = parseFloat(calculatorState.a);
+  const b = parseFloat(calculatorState.b);
+
+  const result = handler(a, b);
+
+  const display = document.getElementById("display");
   display.value = result;
+
   console.log(
-    `Calculando: ${calculatorState.a} y ${calculatorState.b} con la operación ${calculatorState.operation} = ${result}`
+    `Calculando: ${a} y ${b} con la operación ${calculatorState.operation} = ${result}`
   );
+
+  // Save the result for chaining
   calculatorState.a = result;
   calculatorState.b = 0;
   calculatorState.state = 1; // Back to STATE_CAPTURE_A
@@ -67,5 +75,5 @@ export {
   OPERATION_SUBTRACT,
   OPERATION_TIMES,
   OPERATION_DIVIDE,
-  OPERATION_PERCENTAGE
+  OPERATION_PERCENTAGE,
 };

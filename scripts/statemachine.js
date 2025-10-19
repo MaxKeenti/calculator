@@ -12,6 +12,7 @@ export const ACTION_NUMBER = 1;
 export const ACTION_OPERATION = 2;
 export const ACTION_RESULT = 3;
 export const ACTION_SIGN_CHANGE = 4;
+export const ACTION_PERIOD = 5;
 
 let state = calculatorState.state;
 
@@ -28,16 +29,24 @@ const handlers = {
     [ACTION_OPERATION]: (parameter) => {
       state = STATE_CAPTURE_OPERATION;
       calculatorState.operation = parameter;
-      calculatorState.a = parseInt(document.getElementById("display").value);
+      calculatorState.a = document.getElementById("display").value;
       cleanDisplay();
     },
     [ACTION_SIGN_CHANGE]: () => {
       const display = document.getElementById("display");
-      let value = parseFloat(display.value || "0");
+      let value = display.value;
       value = sign_change(value);
       display.value = value;
       calculatorState.a = value;
       console.log("Sign changed: a = " + calculatorState.a);
+    },
+    [ACTION_PERIOD]: () => {
+      const display = document.getElementById("display");
+      let value = display.value;
+      value = value + ".";
+      display.value = value;
+      calculatorState.a = value;
+      console.log("Added a period: a = " + calculatorState.a);
     },
   },
   [STATE_CAPTURE_OPERATION]: {
@@ -45,6 +54,7 @@ const handlers = {
       console.log("Capturando segundo número");
       state = STATE_CAPTURE_B;
     },
+    [ACTION_PERIOD]: handlePeriod,
   },
   [STATE_CAPTURE_B]: {
     [ACTION_NUMBER]: () => {
@@ -53,23 +63,24 @@ const handlers = {
       calculatorState.state = STATE_CAPTURE_B;
     },
     [ACTION_OPERATION]: () => {
-      calculatorState.b = parseInt(document.getElementById("display").value);
+      calculatorState.b = document.getElementById("display").value;
       state = STATE_EQUALS;
       equals();
     },
     [ACTION_RESULT]: () => {
-      calculatorState.b = parseInt(document.getElementById("display").value);
+      calculatorState.b = document.getElementById("display").value;
       state = STATE_EQUALS;
       equals();
     },
     [ACTION_SIGN_CHANGE]: () => {
       const display = document.getElementById("display");
-      let value = parseFloat(display.value || "0");
+      let value = display.value;
       value = sign_change(value);
       display.value = value;
       calculatorState.b = value;
       console.log("Sign changed: b = " + calculatorState.b);
-    }
+    },
+    [ACTION_PERIOD]: handlePeriod,
   },
   [STATE_EQUALS]: {
     [ACTION_OPERATION]: (parameter) => {
@@ -85,14 +96,12 @@ const handlers = {
       state = STATE_CAPTURE_A;
       calculatorState.state = STATE_CAPTURE_A;
     },
-    [ACTION_SIGN_CHANGE]: () => {
-      const display = document.getElementById("display");
-      let value = parseFloat(display.value || "0");
-      value = sign_change(value);
-      display.value = value;
-      calculatorState.a = value;
-      console.log("Sign changed: a = " + calculatorState.a);
-    }
+    [ACTION_PERIOD]: () => {
+      // Allow editing result as new input
+      state = STATE_CAPTURE_A;
+      calculatorState.state = STATE_CAPTURE_A;
+      handlePeriod();
+    },
   },
 };
 
@@ -100,6 +109,24 @@ function stateMachine(action, parameter) {
   const handler = handlers[state]?.[action];
   if (handler) handler(parameter);
   else console.warn(`No handler for state=${state}, action=${action}`);
+}
+
+function handlePeriod() {
+  const display = document.getElementById("display");
+
+  // If the display is empty, start with "0."
+  if (display.value === "") {
+    display.value = "0.";
+  } else if (!display.value.includes(".")) {
+    // Only add a period if there isn't one already
+    display.value += ".";
+  }
+
+  // Update the correct operand
+  if (state === STATE_CAPTURE_A) calculatorState.a = display.value;
+  else if (state === STATE_CAPTURE_B) calculatorState.b = display.value;
+
+  console.log(`Added period, display = ${display.value}`);
 }
 
 export { stateMachine, calculatorState, resetCalculator };
