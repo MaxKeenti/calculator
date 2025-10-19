@@ -1,3 +1,4 @@
+import { cleanDisplay } from './ui.js'
 // calculatorState.js
 
 // Centralized calculator state object
@@ -16,8 +17,5 @@ export function resetCalculator() {
   calculatorState.operation = null;
   calculatorState.a = 0;
   calculatorState.b = 0;
-
-  // Optional: also clear the display if it exists
-  const display = document.getElementById("display");
-  if (display) display.value = "";
+  cleanDisplay();
 }
