@@ -96,6 +96,16 @@ const handlers = {
       state = STATE_CAPTURE_A;
       calculatorState.state = STATE_CAPTURE_A;
     },
+    [ACTION_SIGN_CHANGE]: () => {
+      state = STATE_CAPTURE_A;
+      calculatorState.state = STATE_CAPTURE_A;
+      const display = document.getElementById("display");
+      let value = display.value;
+      value = sign_change(value);
+      display.value = value;
+      calculatorState.a = value;
+      console.log("Sign changed: b = " + calculatorState.a);
+    },
     [ACTION_PERIOD]: () => {
       // Allow editing result as new input
       state = STATE_CAPTURE_A;
