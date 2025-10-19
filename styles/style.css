@@ -1,3 +1,15 @@
+/*!
+ * File: style.css
+ * Purpose: Styles for Calculator Web App
+ * Description: Defines visual layout and theme for the calculator, following an iPhone-style interface.
+ * Dependencies: None
+ * Exports: None (CSS only)
+ * Author: Maximiliano González Calzada
+ * Project: Calculator Web App
+ * Created: [2025-10-14]
+ * Last Updated: [2025-10-18]
+ */
+
 body {
   background-color: #333;
   display: flex;
