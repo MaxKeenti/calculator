@@ -1,17 +1,41 @@
-import { cleanDisplay } from './ui.js'
-// calculatorState.js
+/**
+ * ============================================================
+ * File: [calculatorState.js]
+ * Purpose: [Defines and manages the shared calculator state object.]
+ * ------------------------------------------------------------
+ * Description:
+ * [Provides a universal state object for the calculator. Exposes state and reset functionality for use by other modules.]
+ *
+ * Dependencies:
+ * - [cleanDisplay] → [Clears the calculator display]
+ *
+ * Exports:
+ * - [calculatorState] → [Global calculator state object]
+ * - [resetCalculator] → [Resets calculator state and display]
+ *
+ * Author: Maximiliano González Calzada
+ * Project: Calculator Web App
+ * Created: [2025-10-14]
+ * Last Updated: [2025-10-18]
+ * ============================================================
+ */
 
-// Centralized calculator state object
-// This object is shared across all modules by reference.
-// Any change made here will be visible everywhere it's imported.
+import { cleanDisplay } from './ui.js'
+
+/**
+ * Global calculator state object.
+ * Tracks operands, operation type, and current state machine stage.
+ */
 export const calculatorState = {
-  state: 1,        // Initial state (matches STATE_ZERO)
-  operation: null, // Current operation (+, -, *, /, etc.)
-  a: 0,            // First operand
-  b: 0,            // Second operand
+  state: 1,
+  operation: null,
+  a: 0,
+  b: 0,
 };
 
-// 🧹 Function to reset calculator state to initial values
+/**
+ * Resets calculator state and clears the display.
+ */
 export function resetCalculator() {
   calculatorState.state = 1;
   calculatorState.operation = null;
