@@ -78,7 +78,8 @@ function adjustFontSize() {
     display.style.fontSize = `${minSize}rem`;
   } else {
     // interpolate between 3rem and 1.25rem
-    const ratio = (length - maxDigitsBeforeScaling) / (maxDigits - maxDigitsBeforeScaling);
+    const ratio =
+      (length - maxDigitsBeforeScaling) / (maxDigits - maxDigitsBeforeScaling);
     const newSize = baseSize - (baseSize - minSize) * ratio;
     display.style.fontSize = `${newSize}rem`;
   }
@@ -98,4 +99,15 @@ function triggerLimitFeedback(display) {
   setTimeout(() => feedback.remove(), 600);
 }
 
-export { cleanDisplay, addDisplay, addResultDisplay };
+/**
+ * Removes the last character from the display.
+ */
+function backspaceDisplay() {
+  const display = document.getElementById("display");
+  if (display.value.length > 0) {
+    display.value = display.value.slice(0, -1);
+    adjustFontSize();
+  }
+}
+
+export { cleanDisplay, addDisplay, addResultDisplay, backspaceDisplay };
