@@ -36,6 +36,16 @@ function cleanDisplay() {
  */
 function addDisplay(value) {
   const display = document.getElementById("display");
+
+  // Enforce 20-character limit (excluding the decimal point and minus sign)
+  const digitsOnly = display.value.replace(/[-.]/g, "");
+  const maxDigits = 20;
+
+  if (digitsOnly.length >= maxDigits) {
+    triggerLimitFeedback(display);
+    return; // Prevent further input
+  }
+
   display.value += value;
   adjustFontSize();
 }
@@ -60,7 +70,7 @@ function adjustFontSize() {
   const baseSize = 3; // rem
   const minSize = 1.25; // rem
   const maxDigitsBeforeScaling = 8;
-  const maxDigits = 16; // when it reaches minSize
+  const maxDigits = 20; // when it reaches minSize
 
   if (length <= maxDigitsBeforeScaling) {
     display.style.fontSize = `${baseSize}rem`;
@@ -72,6 +82,20 @@ function adjustFontSize() {
     const newSize = baseSize - (baseSize - minSize) * ratio;
     display.style.fontSize = `${newSize}rem`;
   }
+}
+
+/**
+ * Creates a white square overlay that fades away when the input limit is reached.
+ * @param {HTMLElement} display
+ */
+function triggerLimitFeedback(display) {
+  const feedback = document.createElement("div");
+  feedback.classList.add("input-limit-feedback");
+  display.parentElement.style.position = "relative";
+  display.parentElement.appendChild(feedback);
+
+  // Remove after animation ends
+  setTimeout(() => feedback.remove(), 600);
 }
 
 export { cleanDisplay, addDisplay, addResultDisplay };
