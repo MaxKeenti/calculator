@@ -7,10 +7,12 @@
  * [Initializes the calculator, binds DOM events to UI buttons, and delegates user actions to the state machine.]
  *
  * Dependencies:
- * - [stateMachine] → [Handles calculator logic and state transitions]
  * - [resetCalculator] → [Resets the calculator state and display]
  * - [addDisplay] → [Updates the calculator display]
  * - [OPERATION_ADD, OPERATION_SUBTRACT, OPERATION_TIMES, OPERATION_DIVIDE, OPERATION_PERCENTAGE] → [Operation constants]
+ * - [stateMachine.js] → [Provides core logic and event-state transitions]
+ * - [ui.js] → [Handles display updates and backspace functionality]
+ * - [basicOperations.js] → [Provides operation constants for mapping button actions]
  *
  * Exports:
  * - [None; this is the application entry point]
@@ -24,13 +26,17 @@
 
 import {
   stateMachine,
+  resetCalculator,
+  calculatorState,
   ACTION_NUMBER,
   ACTION_OPERATION,
   ACTION_RESULT,
   ACTION_SIGN_CHANGE,
-  ACTION_PERIOD
+  ACTION_PERIOD,
+  STATE_CAPTURE_A,
+  STATE_CAPTURE_B
 } from "./stateMachine.js";
-import { addDisplay } from "./ui.js";
+import { addDisplay, backspaceDisplay } from "./ui.js";
 import {
   OPERATION_ADD,
   OPERATION_SUBTRACT,
@@ -38,10 +44,8 @@ import {
   OPERATION_DIVIDE,
   OPERATION_PERCENTAGE,
 } from "./basicOperations.js";
-import { resetCalculator } from "./stateMachine.js";
 
 document.addEventListener("DOMContentLoaded", () => {
-
   /**
    * Adds a click event listener to a button.
    * @param {string} id - The button's HTML id.
@@ -74,7 +78,37 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // === FUNCTION BUTTONS ===
   onClick("buttonEquals", () => stateMachine(ACTION_RESULT));
-  onClick("buttonAllClear", () => resetCalculator());
   onClick("buttonNegPos", () => stateMachine(ACTION_SIGN_CHANGE));
   onClick("buttonPeriod", () => stateMachine(ACTION_PERIOD));
+  onClick("buttonAllClear", () => {
+    const btn = document.getElementById("buttonAllClear");
+
+    if (
+      calculatorState.state === STATE_CAPTURE_A ||
+      calculatorState.state === STATE_CAPTURE_B
+    ) {
+      backspaceDisplay();
+
+      // If display becomes empty, reset to full AC mode
+      const display = document.getElementById("display");
+      if (display.value === "") btn.textContent = "AC";
+    } else {
+      resetCalculator();
+      btn.textContent = "AC";
+    }
+  });
+
+  // State observer to automatically change the label when switching to editable states
+  document.addEventListener("click", () => {
+    const btn = document.getElementById("buttonAllClear");
+
+    if (
+      calculatorState.state === STATE_CAPTURE_A ||
+      calculatorState.state === STATE_CAPTURE_B
+    ) {
+      btn.textContent = "C";
+    } else {
+      btn.textContent = "AC";
+    }
+  });
 });
