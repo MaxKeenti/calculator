@@ -4,8 +4,9 @@
  * Purpose: [Defines and manages the shared calculator state object.]
  * ------------------------------------------------------------
  * Description:
- * [Provides a universal state object for the calculator. Exposes state and reset functionality for use by other modules.]
- *
+ * [Provides a universal state object for the calculator. Exposes state and reset functionality for use by other modules. 
+ * Serves as the single source of truth accessed by logic, UI, and operation modules.]
+ * 
  * Dependencies:
  * - [cleanDisplay] → [Clears the calculator display]
  *

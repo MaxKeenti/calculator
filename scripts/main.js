@@ -7,10 +7,12 @@
  * [Initializes the calculator, binds DOM events to UI buttons, and delegates user actions to the state machine.]
  *
  * Dependencies:
- * - [stateMachine] → [Handles calculator logic and state transitions]
  * - [resetCalculator] → [Resets the calculator state and display]
  * - [addDisplay] → [Updates the calculator display]
  * - [OPERATION_ADD, OPERATION_SUBTRACT, OPERATION_TIMES, OPERATION_DIVIDE, OPERATION_PERCENTAGE] → [Operation constants]
+ * - [stateMachine.js] → [Provides core logic and event-state transitions]
+ * - [ui.js] → [Handles display updates and backspace functionality]
+ * - [basicOperations.js] → [Provides operation constants for mapping button actions]
  *
  * Exports:
  * - [None; this is the application entry point]

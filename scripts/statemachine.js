@@ -1,6 +1,6 @@
 /**
  * ============================================================
- * File: [stateMachine].js
+ * File: [stateMachine.js]
  * Purpose: [Core finite-state machine controlling calculator logic.]
  * ------------------------------------------------------------
  * Description:
