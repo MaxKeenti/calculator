@@ -4,15 +4,17 @@
  * Purpose: [UI helpers for calculator display manipulation.]
  * ------------------------------------------------------------
  * Description:
- * [Provides functions to clear and update the calculator's display.]
+ * [Provides helper functions to manipulate the calculator display, including clearing, updating, resizing font dynamically, 
+ * and visual feedback when input limits are reached.]
  *
  * Dependencies:
  * - [None]
  *
  * Exports:
- * - [cleanDisplay] → [Clears the calculator display]
- * - [addDisplay] → [Appends value to the calculator display]
- * - [addResultDisplay] → [Places operation result into display]
+ * - [cleanDisplay] → [Clears the display and resets font size]
+ * - [addDisplay] → [Adds characters to display with input limit check]
+ * - [addResultDisplay] → [Displays operation result]
+ * - [backspaceDisplay] → [Removes last character from input]
  *
  * Author: Maximiliano González Calzada
  * Project: Calculator Web App
