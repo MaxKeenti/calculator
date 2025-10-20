@@ -8,6 +8,7 @@
  *
  * Dependencies:
  * - [calculatorState] → [Accesses and updates calculator state]
+ * - [addResultDisplay] → [Places the result of an operation into display]
  *
  * Exports:
  * - [equals] → [Performs the selected arithmetic operation and updates state]
@@ -23,6 +24,7 @@
  */
 
 import { calculatorState } from "./calculatorState.js";
+import { addResultDisplay } from "./ui.js";
 
 // === OPERATION CONSTANTS ===
 const OPERATION_ADD = 1;
@@ -66,7 +68,7 @@ function equals() {
   const b = parseFloat(calculatorState.b);
   const result = handler(a, b);
 
-  document.getElementById("display").value = result;
+  addResultDisplay(result);
 
   //console.log(`Calculando: ${a} y ${b} con operación ${calculatorState.operation} = ${result}`);
 
