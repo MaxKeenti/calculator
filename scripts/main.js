@@ -44,6 +44,10 @@ import {
   OPERATION_DIVIDE,
   OPERATION_PERCENTAGE,
 } from "./basicOperations.js";
+import {
+  attachScientificHandlers,
+  handleScientificEquals,
+} from "./scientificOperations.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   /**
@@ -167,9 +171,14 @@ document.addEventListener("DOMContentLoaded", () => {
         btn.id = id;
         btn.textContent = label;
         btn.className = "button operator sci-button";
-        buttonsContainer.insertBefore(btn, document.getElementById("buttonAllClear")); // Insert before first number
+        buttonsContainer.insertBefore(
+          btn,
+          document.getElementById("buttonAllClear")
+        ); // Insert before first number
       }
     });
+    // ✅ Activate their logic
+    attachScientificHandlers();
   }
 
   function loadGeometricMode() {

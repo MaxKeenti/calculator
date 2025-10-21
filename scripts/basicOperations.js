@@ -25,6 +25,7 @@
 
 import { calculatorState } from "./calculatorState.js";
 import { addResultDisplay } from "./ui.js";
+import { handleScientificEquals } from "./scientificOperations.js";
 
 // === OPERATION CONSTANTS ===
 const OPERATION_ADD = 1;
@@ -75,6 +76,11 @@ function equals() {
   calculatorState.a = result;
   calculatorState.b = 0;
   calculatorState.state = 1;
+
+  if (calculatorState.operation === "pow") {
+    handleScientificEquals();
+    return;
+  }
 }
 
 export {
