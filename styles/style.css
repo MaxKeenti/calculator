@@ -110,3 +110,58 @@ body {
     transform: translateY(-50%) scale(1.5);
   }
 }
+
+/* === iOS-Style Mode Dialog === */
+.mode-dialog {
+  position: absolute;
+  bottom: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(30, 30, 30, 0.9);
+  border-radius: 16px;
+  padding: 8px 0;
+  width: 200px;
+  color: white;
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  z-index: 999;
+}
+
+.mode-dialog.hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(-50%) translateY(10px);
+}
+
+/* Each Option */
+.mode-option {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: transparent;
+  color: white;
+  font-size: 0.95rem;
+  border: none;
+  padding: 10px 16px;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.mode-option:hover {
+  color: #ff9f0a;
+}
+
+.mode-icon {
+  width: 24px;
+  text-align: center;
+  font-size: 1.1rem;
+  opacity: 0.8;
+}
+
+.mode-label {
+  flex: 1;
+}

@@ -25,12 +25,7 @@
   <body>
     <div class="calculator">
       <div class="display">
-        <input
-          id="display"
-          type="text"
-          class="iphone-input"
-          disabled="true"
-        />
+        <input id="display" type="text" class="iphone-input" disabled="true" />
       </div>
       <div class="buttons">
         <button id="buttonAllClear" class="button function">AC</button>
@@ -53,11 +48,26 @@
         <button id="button3" class="button number">3</button>
         <button id="buttonAdd" class="button operator">+</button>
 
-        <button id="buttonScientCalc" class="button number">⌘</button>
+        <button id="buttonSwitchMode" class="button number">⌘</button>
         <button id="button0" class="button number">0</button>
         <button id="buttonPeriod" class="button number">.</button>
         <button id="buttonEquals" class="button operator">=</button>
       </div>
+    </div>
+    <!-- Mode Selection Dialog -->
+    <div id="modeDialog" class="mode-dialog hidden">
+      <button id="btnModeBasic" class="mode-option">
+        <span class="mode-icon">⨯÷</span>
+        <span class="mode-label">Básica</span>
+      </button>
+      <button id="btnModeScientific" class="mode-option">
+        <span class="mode-icon">ƒ(x)</span>
+        <span class="mode-label">Científica</span>
+      </button>
+      <button id="btnModeGeometric" class="mode-option">
+        <span class="mode-icon">⧉</span>
+        <span class="mode-label">Geométrica</span>
+      </button>
     </div>
   </body>
 </html>
