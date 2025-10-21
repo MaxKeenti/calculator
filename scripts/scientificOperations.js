@@ -23,6 +23,8 @@
 
 import { calculatorState } from "./calculatorState.js";
 import { addResultDisplay } from "./ui.js";
+import { stateMachine, ACTION_OPERATION } from "./stateMachine.js";
+import { OPERATION_POWER } from "./basicOperations.js";
 
 /**
  * Converts degrees to radians.
@@ -81,25 +83,8 @@ export function attachScientificHandlers() {
   const btnPow = document.getElementById("buttonPow");
   if (btnPow) {
     btnPow.addEventListener("click", () => {
-      const display = document.getElementById("display");
-      calculatorState.a = parseFloat(display.value);
-      calculatorState.operation = "pow"; // marker for equals()
-      display.value = "";
+      calculatorState.a = parseFloat(document.getElementById("display").value);
+      stateMachine(ACTION_OPERATION, OPERATION_POWER); // ✅ handled by state machine
     });
-  }
-}
-
-/**
- * Executes pending scientific operations that require two operands.
- * (e.g. power operation)
- */
-export function handleScientificEquals() {
-  if (calculatorState.operation === "pow") {
-    const a = parseFloat(calculatorState.a);
-    const b = parseFloat(document.getElementById("display").value);
-    const result = Math.pow(a, b);
-    addResultDisplay(result);
-    calculatorState.a = result;
-    calculatorState.operation = null;
   }
 }

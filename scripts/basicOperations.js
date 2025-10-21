@@ -25,7 +25,6 @@
 
 import { calculatorState } from "./calculatorState.js";
 import { addResultDisplay } from "./ui.js";
-import { handleScientificEquals } from "./scientificOperations.js";
 
 // === OPERATION CONSTANTS ===
 const OPERATION_ADD = 1;
@@ -33,6 +32,7 @@ const OPERATION_SUBTRACT = 2;
 const OPERATION_TIMES = 3;
 const OPERATION_DIVIDE = 4;
 const OPERATION_PERCENTAGE = 5;
+const OPERATION_POWER = 6;
 
 /**
  * Changes the sign of a given numeric value.
@@ -52,6 +52,7 @@ const operationHandlers = {
   [OPERATION_TIMES]: (a, b) => a * b,
   [OPERATION_DIVIDE]: (a, b) => a / b,
   [OPERATION_PERCENTAGE]: (a, b) => (a * b) / 100,
+  [OPERATION_POWER]: (a, b) => Math.pow(a, b),
 };
 
 /**
@@ -76,11 +77,6 @@ function equals() {
   calculatorState.a = result;
   calculatorState.b = 0;
   calculatorState.state = 1;
-
-  if (calculatorState.operation === "pow") {
-    handleScientificEquals();
-    return;
-  }
 }
 
 export {
@@ -92,4 +88,5 @@ export {
   OPERATION_TIMES,
   OPERATION_DIVIDE,
   OPERATION_PERCENTAGE,
+  OPERATION_POWER
 };

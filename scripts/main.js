@@ -44,10 +44,7 @@ import {
   OPERATION_DIVIDE,
   OPERATION_PERCENTAGE,
 } from "./basicOperations.js";
-import {
-  attachScientificHandlers,
-  handleScientificEquals,
-} from "./scientificOperations.js";
+import { attachScientificHandlers } from "./scientificOperations.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   /**
