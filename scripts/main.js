@@ -114,6 +114,11 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // === MODE SWITCH DIALOG ===
+  const params = new URLSearchParams(window.location.search);
+  const startMode = params.get("mode");
+  if (startMode === "scientific") loadScientificMode();
+  if (startMode === "basic") loadBasicMode();
+
   const modeDialog = document.getElementById("modeDialog");
   const btnSwitchMode = document.getElementById("buttonSwitchMode");
 
@@ -174,12 +179,11 @@ document.addEventListener("DOMContentLoaded", () => {
         ); // Insert before first number
       }
     });
-    // ✅ Activate their logic
     attachScientificHandlers();
   }
 
-  function loadGeometricMode() {
-    // Placeholder: to be implemented later
-    alert("Geometric mode will be available soon!");
-  }
+  document.getElementById("btnModeGeometric").addEventListener("click", () => {
+    modeDialog.classList.add("hidden");
+    window.location.href = "geometric.html";
+  });
 });
