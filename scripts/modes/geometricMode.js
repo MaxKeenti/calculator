@@ -1,4 +1,5 @@
-export function initGeometricUI() {
+
+document.addEventListener("DOMContentLoaded", () => {
   const tabs = document.querySelectorAll(".geo-tabs button");
   const figures = document.querySelectorAll(".geo-figures button");
   const inputs = document.querySelectorAll("#geo-inputs input");
@@ -79,4 +80,4 @@ export function initGeometricUI() {
       window.location.href = "index.html";
     });
   }
-}
+});

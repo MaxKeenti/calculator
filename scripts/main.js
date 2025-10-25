@@ -45,7 +45,6 @@ import {
   OPERATION_PERCENTAGE,
 } from "./basicOperations.js";
 import { attachScientificHandlers } from "./scientificOperations.js";
-import { initGeometricUI } from "./modes/geometricMode.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   /**
