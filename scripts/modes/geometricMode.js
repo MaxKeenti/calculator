@@ -41,12 +41,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // === Renders triangle, square, and circle input fields dynamically ===
   function renderLayout() {
-    // Update title, with special handling for cube
+    // Update title, with special handling for cube and sphere
     let tabLabel = spanishLabels[currentTab] || currentTab;
     let figureLabel = spanishLabels[currentFigure] || currentFigure;
     // For cube, show "Cubo" in volume
     if (currentFigure === "square" && currentTab === "volume") {
       figureLabel = "Cubo";
+    }
+    // For sphere, show "Esfera" in volume
+    if (currentFigure === "circle" && currentTab === "volume") {
+      figureLabel = "Esfera";
     }
     document.getElementById("geo-title").textContent = `${tabLabel} de ${figureLabel}`;
 
@@ -222,6 +226,29 @@ document.addEventListener("DOMContentLoaded", () => {
             <input type="number" id="side" required />
           </div>`;
       }
+    } else if (currentFigure === "circle") {
+      geoOptions.classList.add("hidden");
+      geoOptions.innerHTML = "";
+      geoInputs.innerHTML = "";
+      if (currentTab === "perimeter") {
+        geoInputs.innerHTML = `
+          <div class="geo-input">
+            <label>Radio</label>
+            <input type="number" id="radius" required />
+          </div>`;
+      } else if (currentTab === "area") {
+        geoInputs.innerHTML = `
+          <div class="geo-input">
+            <label>Radio</label>
+            <input type="number" id="radius" required />
+          </div>`;
+      } else if (currentTab === "volume") {
+        geoInputs.innerHTML = `
+          <div class="geo-input">
+            <label>Radio de la Esfera</label>
+            <input type="number" id="radius" required />
+          </div>`;
+      }
     } else {
       // For other figures: TODO (not in scope)
       geoInputs.innerHTML = `<div style="color:#aaa;margin-bottom:8px;">(No implementado)</div>`;
@@ -326,6 +353,15 @@ document.addEventListener("DOMContentLoaded", () => {
         res = side > 0 ? side * side : "—";
       } else if (currentTab === "volume") {
         res = side > 0 ? side ** 3 : "—";
+      }
+    } else if (currentFigure === "circle") {
+      const radius = parseFloat(document.getElementById("radius")?.value || 0);
+      if (currentTab === "perimeter") {
+        res = radius > 0 ? 2 * Math.PI * radius : "—";
+      } else if (currentTab === "area") {
+        res = radius > 0 ? Math.PI * radius ** 2 : "—";
+      } else if (currentTab === "volume") {
+        res = radius > 0 ? (4 / 3) * Math.PI * radius ** 3 : "—";
       }
     } else {
       // Not implemented
