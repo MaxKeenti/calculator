@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calculadora iPhone</title>
+    <link type="text/css" rel="stylesheet" href="styles/geometric.css" />
+    <script type="module" src="/scripts/modes/geometricMode.js">
+      <!--
+        //
+        -->
+    </script>
+  </head>
+  <body>
+    <section id="geometric-mode" class="hidden">
+      <header class="geo-header">
+        <nav class="geo-tabs">
+          <button data-mode="area" class="active">Área</button>
+          <button data-mode="perimeter">Perímetro</button>
+          <button data-mode="volume">Volumen</button>
+        </nav>
+      </header>
+
+      <div class="geo-container">
+        <aside class="geo-figures">
+          <h2>Figura</h2>
+          <button data-figure="triangle" class="active">Triángulo</button>
+          <button data-figure="square">Cuadrado</button>
+        </aside>
+
+        <header class="geo-header">
+          <button id="btnReturn" class="geo-back">← Regresar</button>
+          <nav class="geo-tabs">
+            <button data-mode="area" class="active">Área</button>
+            <button data-mode="perimeter">Perímetro</button>
+            <button data-mode="volume">Volumen</button>
+          </nav>
+        </header>
+
+        <main class="geo-calculator">
+          <h2 id="geo-title">Perímetro de Triángulo</h2>
+
+          <div id="geo-options" class="geo-options hidden">
+            <label
+              ><input
+                type="radio"
+                name="triangleType"
+                value="equilateral"
+                checked
+              />
+              Equilátero</label
+            >
+            <label
+              ><input type="radio" name="triangleType" value="isosceles" />
+              Isósceles</label
+            >
+            <label
+              ><input type="radio" name="triangleType" value="scalene" />
+              Escaleno</label
+            >
+          </div>
+
+          <form id="geo-inputs">
+            <div class="geo-input">
+              <label>Lado 1</label>
+              <input type="number" id="side1" required />
+            </div>
+            <div class="geo-input">
+              <label>Lado 2</label>
+              <input type="number" id="side2" />
+            </div>
+            <div class="geo-input">
+              <label>Lado 3</label>
+              <input type="number" id="side3" />
+            </div>
+          </form>
+
+          <button id="geo-calculate">Calcular</button>
+
+          <div id="geo-result" class="geo-result">Resultado: —</div>
+        </main>
+      </div>
+    </section>
+  </body>
+</html>

@@ -1,0 +1,55 @@
+#geometric-mode {
+  color: #222;
+  background: #f7f7f7;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  padding: 20px;
+}
+
+.geo-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.geo-tabs button.active {
+  border-bottom: 2px solid #ff9f0a;
+  color: #ff9f0a;
+}
+
+.geo-back {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  margin-right: 1rem;
+  color: #333;
+}
+
+.geo-back:hover {
+  color: #ff9f0a;
+}
+
+.geo-container {
+  display: flex;
+  margin-top: 20px;
+}
+
+.geo-figures {
+  width: 25%;
+  border-right: 2px solid #ccc;
+  padding-right: 10px;
+}
+
+.geo-calculator {
+  flex: 1;
+  padding: 0 20px;
+}
+
+.geo-input {
+  margin-bottom: 10px;
+}
+
+.geo-result {
+  margin-top: 15px;
+  font-weight: bold;
+}

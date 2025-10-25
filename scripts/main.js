@@ -45,6 +45,7 @@ import {
   OPERATION_PERCENTAGE,
 } from "./basicOperations.js";
 import { attachScientificHandlers } from "./scientificOperations.js";
+import { initGeometricUI } from "./modes/geometricMode.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   /**
@@ -179,7 +180,11 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function loadGeometricMode() {
-    // Placeholder: to be implemented later
-    alert("Geometric mode will be available soon!");
+    document
+      .getElementById("btnModeGeometric")
+      .addEventListener("click", () => {
+        // Redirect to standalone geometric page
+        window.location.href = "geometric.html";
+      });
   }
 });
