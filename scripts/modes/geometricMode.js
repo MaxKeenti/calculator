@@ -39,15 +39,19 @@ document.addEventListener("DOMContentLoaded", () => {
     })
   );
 
-  // === Renders triangle type radios and input fields dynamically ===
+  // === Renders triangle, square, and circle input fields dynamically ===
   function renderLayout() {
-    // Update title
+    // Update title, with special handling for cube
     let tabLabel = spanishLabels[currentTab] || currentTab;
     let figureLabel = spanishLabels[currentFigure] || currentFigure;
+    // For cube, show "Cubo" in volume
+    if (currentFigure === "square" && currentTab === "volume") {
+      figureLabel = "Cubo";
+    }
     document.getElementById("geo-title").textContent = `${tabLabel} de ${figureLabel}`;
 
-    // Triangle options always shown for triangle, hidden otherwise
     const geoOptions = document.getElementById("geo-options");
+    // Triangle options
     if (currentFigure === "triangle") {
       geoOptions.classList.remove("hidden");
       geoOptions.innerHTML = `
@@ -62,6 +66,9 @@ document.addEventListener("DOMContentLoaded", () => {
           renderLayout();
         })
       );
+    } else if (currentFigure === "square") {
+      geoOptions.classList.add("hidden");
+      geoOptions.innerHTML = "";
     } else {
       geoOptions.classList.add("hidden");
       geoOptions.innerHTML = "";
@@ -192,6 +199,29 @@ document.addEventListener("DOMContentLoaded", () => {
           `;
         }
       }
+    } else if (currentFigure === "square") {
+      geoOptions.classList.add("hidden");
+      geoOptions.innerHTML = "";
+      geoInputs.innerHTML = "";
+      if (currentTab === "perimeter") {
+        geoInputs.innerHTML = `
+          <div class="geo-input">
+            <label>Lado</label>
+            <input type="number" id="side" required />
+          </div>`;
+      } else if (currentTab === "area") {
+        geoInputs.innerHTML = `
+          <div class="geo-input">
+            <label>Lado</label>
+            <input type="number" id="side" required />
+          </div>`;
+      } else if (currentTab === "volume") {
+        geoInputs.innerHTML = `
+          <div class="geo-input">
+            <label>Lado del Cubo</label>
+            <input type="number" id="side" required />
+          </div>`;
+      }
     } else {
       // For other figures: TODO (not in scope)
       geoInputs.innerHTML = `<div style="color:#aaa;margin-bottom:8px;">(No implementado)</div>`;
@@ -287,6 +317,15 @@ document.addEventListener("DOMContentLoaded", () => {
             res = "—";
           }
         }
+      }
+    } else if (currentFigure === "square") {
+      const side = parseFloat(document.getElementById("side")?.value || 0);
+      if (currentTab === "perimeter") {
+        res = side > 0 ? side * 4 : "—";
+      } else if (currentTab === "area") {
+        res = side > 0 ? side * side : "—";
+      } else if (currentTab === "volume") {
+        res = side > 0 ? side ** 3 : "—";
       }
     } else {
       // Not implemented
