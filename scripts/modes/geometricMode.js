@@ -1,10 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const tabs = document.querySelectorAll(".geo-tabs button");
-  const figures = document.querySelectorAll(".geo-figures button");
-  const inputs = document.querySelectorAll("#geo-inputs input");
-  const result = document.getElementById("geo-result");
-  const calcBtn = document.getElementById("geo-calculate");
-
   // Spanish label mappings for UI
   const spanishLabels = {
     area: "Área",
@@ -15,9 +9,15 @@ document.addEventListener("DOMContentLoaded", () => {
     circle: "Círculo",
   };
 
-  let currentTab = "perímetro";
+  // State variables
+  let currentTab = "perimeter";
   let currentFigure = "triangle";
   let triangleType = "equilateral";
+
+  const tabs = document.querySelectorAll(".geo-tabs button");
+  const figures = document.querySelectorAll(".geo-figures button");
+  const result = document.getElementById("geo-result");
+  const calcBtn = document.getElementById("geo-calculate");
 
   // === Tab switching ===
   tabs.forEach((btn) =>
@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
       tabs.forEach((b) => b.classList.remove("active"));
       btn.classList.add("active");
       currentTab = btn.dataset.mode;
-      updateTitle();
+      renderLayout();
     })
   );
 
@@ -35,58 +35,279 @@ document.addEventListener("DOMContentLoaded", () => {
       figures.forEach((b) => b.classList.remove("active"));
       btn.classList.add("active");
       currentFigure = btn.dataset.figure;
-      document
-        .getElementById("geo-options")
-        .classList.toggle("hidden", currentFigure !== "triangle");
-      updateTitle();
+      renderLayout();
     })
   );
 
-  // === Triangle type logic ===
-  document.querySelectorAll("input[name='triangleType']").forEach((radio) =>
-    radio.addEventListener("change", (e) => {
-      triangleType = e.target.value;
-      adjustInputsForTriangle(triangleType);
-    })
-  );
-
-  function adjustInputsForTriangle(type) {
-    inputs.forEach((inp) => (inp.disabled = false));
-    if (type === "equilateral")
-      inputs.slice(1).forEach((inp) => (inp.disabled = true));
-    if (type === "isosceles") inputs[1].disabled = true;
-  }
-
-  function updateTitle() {
-    // Use Spanish labels and handle correct display for currentTab
+  // === Renders triangle type radios and input fields dynamically ===
+  function renderLayout() {
+    // Update title
     let tabLabel = spanishLabels[currentTab] || currentTab;
     let figureLabel = spanishLabels[currentFigure] || currentFigure;
     document.getElementById("geo-title").textContent = `${tabLabel} de ${figureLabel}`;
+
+    // Triangle options always shown for triangle, hidden otherwise
+    const geoOptions = document.getElementById("geo-options");
+    if (currentFigure === "triangle") {
+      geoOptions.classList.remove("hidden");
+      geoOptions.innerHTML = `
+        <label><input type="radio" name="triangleType" value="equilateral" ${triangleType === "equilateral" ? "checked" : ""}/> Equilátero</label>
+        <label><input type="radio" name="triangleType" value="isosceles" ${triangleType === "isosceles" ? "checked" : ""}/> Isósceles</label>
+        <label><input type="radio" name="triangleType" value="scalene" ${triangleType === "scalene" ? "checked" : ""}/> Escaleno</label>
+      `;
+      // Attach event listeners to radios
+      geoOptions.querySelectorAll("input[name='triangleType']").forEach((radio) =>
+        radio.addEventListener("change", (e) => {
+          triangleType = e.target.value;
+          renderLayout();
+        })
+      );
+    } else {
+      geoOptions.classList.add("hidden");
+      geoOptions.innerHTML = "";
+    }
+
+    // Build input fields
+    const geoInputs = document.getElementById("geo-inputs");
+    geoInputs.innerHTML = "";
+    // For triangle, input fields depend on type and tab
+    if (currentFigure === "triangle") {
+      // For volume, always need a height as well
+      if (currentTab === "volume") {
+        // Base area inputs + altura
+        if (triangleType === "equilateral") {
+          geoInputs.innerHTML += `
+            <div class="geo-input">
+              <label>Lado/Base</label>
+              <input type="number" id="side1" required />
+            </div>
+            <div class="geo-input">
+              <label>Altura</label>
+              <input type="number" id="altura" required />
+            </div>
+          `;
+        } else if (triangleType === "isosceles") {
+          geoInputs.innerHTML += `
+            <div class="geo-input">
+              <label>Lado</label>
+              <input type="number" id="side1" required />
+            </div>
+            <div class="geo-input">
+              <label>Base</label>
+              <input type="number" id="side3" required />
+            </div>
+            <div class="geo-input">
+              <label>Altura</label>
+              <input type="number" id="altura" required />
+            </div>
+          `;
+        } else if (triangleType === "scalene") {
+          geoInputs.innerHTML += `
+            <div class="geo-input">
+              <label>Lado 1</label>
+              <input type="number" id="side1" required />
+            </div>
+            <div class="geo-input">
+              <label>Lado 2</label>
+              <input type="number" id="side2" required />
+            </div>
+            <div class="geo-input">
+              <label>Lado 3</label>
+              <input type="number" id="side3" required />
+            </div>
+            <div class="geo-input">
+              <label>Altura</label>
+              <input type="number" id="altura" required />
+            </div>
+          `;
+        }
+      } else if (currentTab === "area") {
+        if (triangleType === "equilateral") {
+          geoInputs.innerHTML += `
+            <div class="geo-input">
+              <label>Lado/Base</label>
+              <input type="number" id="side1" required />
+            </div>
+          `;
+        } else if (triangleType === "isosceles") {
+          geoInputs.innerHTML += `
+            <div class="geo-input">
+              <label>Lado</label>
+              <input type="number" id="side1" required />
+            </div>
+            <div class="geo-input">
+              <label>Base</label>
+              <input type="number" id="side3" required />
+            </div>
+          `;
+        } else if (triangleType === "scalene") {
+          geoInputs.innerHTML += `
+            <div class="geo-input">
+              <label>Lado 1</label>
+              <input type="number" id="side1" required />
+            </div>
+            <div class="geo-input">
+              <label>Lado 2</label>
+              <input type="number" id="side2" required />
+            </div>
+            <div class="geo-input">
+              <label>Lado 3</label>
+              <input type="number" id="side3" required />
+            </div>
+          `;
+        }
+      } else if (currentTab === "perimeter") {
+        if (triangleType === "equilateral") {
+          geoInputs.innerHTML += `
+            <div class="geo-input">
+              <label>Lado</label>
+              <input type="number" id="side1" required />
+            </div>
+          `;
+        } else if (triangleType === "isosceles") {
+          geoInputs.innerHTML += `
+            <div class="geo-input">
+              <label>Lado</label>
+              <input type="number" id="side1" required />
+            </div>
+            <div class="geo-input">
+              <label>Base</label>
+              <input type="number" id="side3" required />
+            </div>
+          `;
+        } else if (triangleType === "scalene") {
+          geoInputs.innerHTML += `
+            <div class="geo-input">
+              <label>Lado 1</label>
+              <input type="number" id="side1" required />
+            </div>
+            <div class="geo-input">
+              <label>Lado 2</label>
+              <input type="number" id="side2" required />
+            </div>
+            <div class="geo-input">
+              <label>Lado 3</label>
+              <input type="number" id="side3" required />
+            </div>
+          `;
+        }
+      }
+    } else {
+      // For other figures: TODO (not in scope)
+      geoInputs.innerHTML = `<div style="color:#aaa;margin-bottom:8px;">(No implementado)</div>`;
+    }
   }
 
-  // === Calculate button ===
-  calcBtn.addEventListener("click", () => {
-    const v1 = parseFloat(inputs[0].value) || 0;
-    const v2 = parseFloat(inputs[1].value) || 0;
-    const v3 = parseFloat(inputs[2].value) || 0;
-    let res = 0;
+  // Initial render
+  renderLayout();
 
-    if (currentFigure === "triangle" && currentTab === "perimeter") {
-      if (triangleType === "equilateral") res = v1 * 3;
-      else if (triangleType === "isosceles") res = v1 * 2 + v3;
-      else res = v1 + v2 + v3;
+  // === Calculate button handler ===
+  calcBtn.addEventListener("click", () => {
+    // Read inputs by id
+    let res = "";
+    if (currentFigure === "triangle") {
+      // Perimeter
+      if (currentTab === "perimeter") {
+        if (triangleType === "equilateral") {
+          const lado = parseFloat(document.getElementById("side1")?.value || 0);
+          res = lado > 0 ? (lado * 3) : "—";
+        } else if (triangleType === "isosceles") {
+          const lado = parseFloat(document.getElementById("side1")?.value || 0);
+          const base = parseFloat(document.getElementById("side3")?.value || 0);
+          res = (lado > 0 && base > 0) ? (lado * 2 + base) : "—";
+        } else if (triangleType === "scalene") {
+          const l1 = parseFloat(document.getElementById("side1")?.value || 0);
+          const l2 = parseFloat(document.getElementById("side2")?.value || 0);
+          const l3 = parseFloat(document.getElementById("side3")?.value || 0);
+          res = (l1 > 0 && l2 > 0 && l3 > 0) ? (l1 + l2 + l3) : "—";
+        }
+      }
+      // Area
+      else if (currentTab === "area") {
+        if (triangleType === "equilateral") {
+          const lado = parseFloat(document.getElementById("side1")?.value || 0);
+          res = lado > 0 ? ((Math.sqrt(3) / 4) * lado * lado) : "—";
+        } else if (triangleType === "isosceles") {
+          // Lado = side1, Base = side3
+          const lado = parseFloat(document.getElementById("side1")?.value || 0);
+          const base = parseFloat(document.getElementById("side3")?.value || 0);
+          if (lado > 0 && base > 0 && lado > base/2) {
+            // h = sqrt(lado^2 - (base/2)^2)
+            const h = Math.sqrt(lado ** 2 - (base / 2) ** 2);
+            res = (base * h) / 2;
+          } else {
+            res = "—";
+          }
+        } else if (triangleType === "scalene") {
+          // Heron's formula
+          const l1 = parseFloat(document.getElementById("side1")?.value || 0);
+          const l2 = parseFloat(document.getElementById("side2")?.value || 0);
+          const l3 = parseFloat(document.getElementById("side3")?.value || 0);
+          if (l1 > 0 && l2 > 0 && l3 > 0) {
+            const s = (l1 + l2 + l3) / 2;
+            const area = Math.sqrt(s * (s - l1) * (s - l2) * (s - l3));
+            res = !isNaN(area) ? area : "—";
+          } else {
+            res = "—";
+          }
+        }
+      }
+      // Volume
+      else if (currentTab === "volume") {
+        // Volume = (1/3) * area_base * altura
+        let area = null, altura = null;
+        altura = parseFloat(document.getElementById("altura")?.value || 0);
+        if (triangleType === "equilateral") {
+          const lado = parseFloat(document.getElementById("side1")?.value || 0);
+          if (lado > 0 && altura > 0) {
+            area = (Math.sqrt(3) / 4) * lado * lado;
+            res = (1 / 3) * area * altura;
+          } else {
+            res = "—";
+          }
+        } else if (triangleType === "isosceles") {
+          const lado = parseFloat(document.getElementById("side1")?.value || 0);
+          const base = parseFloat(document.getElementById("side3")?.value || 0);
+          if (lado > 0 && base > 0 && altura > 0 && lado > base/2) {
+            const h = Math.sqrt(lado ** 2 - (base / 2) ** 2);
+            area = (base * h) / 2;
+            res = (1 / 3) * area * altura;
+          } else {
+            res = "—";
+          }
+        } else if (triangleType === "scalene") {
+          const l1 = parseFloat(document.getElementById("side1")?.value || 0);
+          const l2 = parseFloat(document.getElementById("side2")?.value || 0);
+          const l3 = parseFloat(document.getElementById("side3")?.value || 0);
+          if (l1 > 0 && l2 > 0 && l3 > 0 && altura > 0) {
+            const s = (l1 + l2 + l3) / 2;
+            area = Math.sqrt(s * (s - l1) * (s - l2) * (s - l3));
+            res = !isNaN(area) ? (1 / 3) * area * altura : "—";
+          } else {
+            res = "—";
+          }
+        }
+      }
+    } else {
+      // Not implemented
+      res = "—";
     }
-    result.textContent = `Resultado: ${res}`;
+    // Format result
+    let resStr = "—";
+    if (typeof res === "number" && isFinite(res)) {
+      resStr = (Math.round(res * 1e6) / 1e6).toString();
+    } else if (typeof res === "string") {
+      resStr = res;
+    }
+    result.textContent = `Resultado: ${resStr}`;
   });
 
-  // === Return button ===
+  // === Mode dialog ===
   const modeDialog = document.getElementById("modeDialog");
   const switchBtn = document.getElementById("buttonSwitchMode");
-
   switchBtn.addEventListener("click", () => {
     modeDialog.classList.toggle("hidden");
   });
-
   // Mode switching redirects
   document.getElementById("btnModeBasic").addEventListener("click", () => {
     window.location.href = "index.html?mode=basic";
