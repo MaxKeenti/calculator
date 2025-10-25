@@ -1,4 +1,3 @@
-
 document.addEventListener("DOMContentLoaded", () => {
   const tabs = document.querySelectorAll(".geo-tabs button");
   const figures = document.querySelectorAll(".geo-figures button");
@@ -74,10 +73,21 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // === Return button ===
-  const btnReturn = document.getElementById("btnReturn");
-  if (btnReturn) {
-    btnReturn.addEventListener("click", () => {
-      window.location.href = "index.html";
-    });
-  }
+  const modeDialog = document.getElementById("modeDialog");
+  const switchBtn = document.getElementById("buttonSwitchMode");
+
+  switchBtn.addEventListener("click", () => {
+    modeDialog.classList.toggle("hidden");
+  });
+
+  // Mode switching redirects
+  document.getElementById("btnModeBasic").addEventListener("click", () => {
+    window.location.href = "index.html?mode=basic";
+  });
+  document.getElementById("btnModeScientific").addEventListener("click", () => {
+    window.location.href = "index.html?mode=scientific";
+  });
+  document.getElementById("btnModeGeometric").addEventListener("click", () => {
+    modeDialog.classList.add("hidden");
+  });
 });

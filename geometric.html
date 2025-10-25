@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Calculadora iPhone</title>
     <link type="text/css" rel="stylesheet" href="styles/geometric.css" />
+    <link type="text/css" rel="stylesheet" href="styles/style.css" />
     <script type="module" src="/scripts/modes/geometricMode.js">
       <!--
         //
@@ -14,7 +15,6 @@
   <body>
     <section id="geometric-mode">
       <header class="geo-header">
-        <button id="btnReturn" class="geo-back">← Regresar</button>
         <nav class="geo-tabs">
           <button data-mode="area" class="active">Área</button>
           <button data-mode="perimeter">Perímetro</button>
@@ -68,11 +68,29 @@
             </div>
           </form>
 
-          <button id="geo-calculate">=</button>
+          <div class="buttons">
+            <button id="buttonSwitchMode" class="button number">⌘</button>
+            <button id="geo-calculate" class="button operator">=</button>
+          </div>
 
           <div id="geo-result" class="geo-result">Resultado: —</div>
         </main>
       </div>
     </section>
+    <!-- Mode Selection Dialog -->
+    <div id="modeDialog" class="mode-dialog hidden">
+      <button id="btnModeBasic" class="mode-option">
+        <span class="mode-icon">⨯÷</span>
+        <span class="mode-label">Básica</span>
+      </button>
+      <button id="btnModeScientific" class="mode-option">
+        <span class="mode-icon">ƒ(x)</span>
+        <span class="mode-label">Científica</span>
+      </button>
+      <button id="btnModeGeometric" class="mode-option">
+        <span class="mode-icon">⧉</span>
+        <span class="mode-label">Geométrica</span>
+      </button>
+    </div>
   </body>
 </html>
