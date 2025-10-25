@@ -5,7 +5,17 @@ document.addEventListener("DOMContentLoaded", () => {
   const result = document.getElementById("geo-result");
   const calcBtn = document.getElementById("geo-calculate");
 
-  let currentTab = "perimeter";
+  // Spanish label mappings for UI
+  const spanishLabels = {
+    area: "Área",
+    perimeter: "Perímetro",
+    volume: "Volumen",
+    triangle: "Triángulo",
+    square: "Cuadrado",
+    circle: "Círculo",
+  };
+
+  let currentTab = "perímetro";
   let currentFigure = "triangle";
   let triangleType = "equilateral";
 
@@ -48,13 +58,10 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function updateTitle() {
-    document.getElementById("geo-title").textContent = `${capitalize(
-      currentTab
-    )} de ${capitalize(currentFigure)}`;
-  }
-
-  function capitalize(str) {
-    return str.charAt(0).toUpperCase() + str.slice(1);
+    // Use Spanish labels and handle correct display for currentTab
+    let tabLabel = spanishLabels[currentTab] || currentTab;
+    let figureLabel = spanishLabels[currentFigure] || currentFigure;
+    document.getElementById("geo-title").textContent = `${tabLabel} de ${figureLabel}`;
   }
 
   // === Calculate button ===
